@@ -23,5 +23,5 @@ class XarxaNeuronal:
 
 inputs = np.array([0, 1]) #assignem valors als inputs
 xarxa = XarxaNeuronal(inputs) #creem la instància de la classe amb els valor dels inputs
-resulta = xarxa.feedforward(inputs) #calculem el resultat
-print(resulta) #mostrem el resultat de la sortida
+resultat = xarxa.feedforward(inputs) #calculem el resultat
+print(resultat) #mostrem el resultat de la sortida
