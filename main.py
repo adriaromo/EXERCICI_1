@@ -20,7 +20,31 @@ class XarxaNeuronal:
         output_input = np.dot(hidden_output, self.weights_outputs)+self.bias_outputs # mateixa operació amb l'altra layer (operació encadenada amb l'altra)
         output = self.sigmoid(output_input) # aplica la fòrmula amb l'última matriu calculada
         return output # retorna la sortida de la xarxa
+    def train(self, inputs, targets, epochs):
+        for epoch in range(epochs):
+            # Feedforward
+            hidden_input = np.dot(inputs, self.weights_inputs) + self.bias_hidden
+            hidden_output = self.sigmoid(hidden_input)
+            output_input = np.dot(hidden_output, self.weights_outputs) + self.bias_outputs
+            output = self.sigmoid(output_input)
 
+            # Càlcul de l'error
+            error = targets - output
+
+            # Retropropagació
+            output_delta = error * self.sigmoid_derivative(output)
+            hidden_error = output_delta.dot(self.weights_outputs.T)
+            hidden_delta = hidden_error * self.sigmoid_derivative(hidden_output)
+
+            # Actualització de pesos i bies
+            self.weights_outputs += hidden_output.T.dot(output_delta)
+            self.weights_inputs += inputs.T.dot(hidden_delta)
+            self.bias_outputs += np.sum(output_delta)
+            self.bias_hidden += np.sum(hidden_delta)
+
+            # Càlcul de l'error mitjà
+            mean_error = np.mean(np.abs(error))
+            print(f'Epoch: {epoch}, Error Mitjà: {mean_error}')
 inputs = np.array([0, 1]) #assignem valors als inputs
 xarxa = XarxaNeuronal(inputs) #creem la instància de la classe amb els valor dels inputs
 resultat = xarxa.feedforward(inputs) #calculem el resultat
