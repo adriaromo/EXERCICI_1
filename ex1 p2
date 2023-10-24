@@ -1,3 +1,19 @@
+#W1 = self.weight.inputs
+#X = inputs
+#B1 = self.bias_hidden
+#Z1 = hidden_input
+
+#Z2 = output_input
+#W2 = self.wheight_outputs
+#A1 = hidden_output
+#B2 = self.bias_outputs
+
+#A2 = output
+#Y = sortida
+#Error = dz2
+
+#Delta = dz1
+
 import numpy as np
 class XarxaNeuronal:
     # crear classe de la xarxa amb els elements
