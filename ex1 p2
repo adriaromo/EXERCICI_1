@@ -47,18 +47,18 @@ class XarxaNeuronal:
             #la multiplicació de les matrius està bé l'ordre (sino petaria)
             #la a es output
 
-            self.weights_outputs = self.weights_outputs - 0.25 * hidden_error #actualització del pes (w)
+            self.weights_outputs = self.weights_outputs - 0.25 * hidden_error #actualització del pes (w2)
 
-            self.bias_outputs = self.bias_outputs - 0.25 * error
+            self.bias_outputs = self.bias_outputs - 0.25 * error     #B2
 
-            g_deriv = np.outer(hidden_output,(1 - hidden_output))
-            delta = np.matmul(np.dot(error, self.weights_outputs.T), g_deriv)
+            g_deriv = np.outer(hidden_output,(1 - hidden_output))    
+            delta = np.matmul(np.dot(error, self.weights_outputs.T), g_deriv)    
 
             dw1 = np.dot(inputs.T, delta)
 
-            self.weights_inputs = self.weights_inputs - 0.25 * dw1  #actualització del pes (w)
+            self.weights_inputs = self.weights_inputs - 0.25 * dw1  #actualització del pes (w1)
 
-            self.bias_hidden = self.bias_hidden - 0.25 * delta
+            self.bias_hidden = self.bias_hidden - 0.25 * delta    #b1
 
         return output
 
