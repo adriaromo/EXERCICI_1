@@ -51,7 +51,7 @@ class XarxaNeuronal:
 
             self.bias_outputs = self.bias_outputs - 0.25 * error     #B2
 
-            g_deriv = np.outer(hidden_output,(1 - hidden_output))    
+            g_deriv = np.outer(hidden_output,(1 - hidden_output))    #np.outer fa el producte de dos vectors
             delta = np.matmul(np.dot(error, self.weights_outputs.T), g_deriv)    
 
             dw1 = np.dot(inputs.T, delta)
