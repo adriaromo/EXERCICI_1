@@ -1,0 +1,54 @@
+import numpy as np
+class XarxaNeuronal:
+    # crear classe de la xarxa amb els elements
+    def _init_(self, inputs):     #constructor
+        self.inputs = 2         #creem dos inputs
+        self.hidden = 3         #creem tres elements hidden
+        self.outputs = 2        #creem dos outputs
+        #np.ones --> fa una matriu d'uns(d'aquestes dimensions)
+        self.weights_inputs = np.ones ((self.inputs, self.hidden))       #com volem una matriu hi ha dos termes
+        self.weights_outputs = np.ones ((self.hidden, self.outputs))     #per fer una matriu posem dos (())
+        self.bias_hidden = np.ones(self.hidden) #declarar les bies ocultes
+        self.bias_outputs = np.ones(self.outputs) #declarar les bies outputs
+
+    def sigmoid (self, x): #funció sigmoid
+        return 1/(1+np.exp(-x)) #fòrmula
+
+    def sigmoid_derivative (self,x):
+        return x*(1-x)      #es la funció derivada d'error
+    def feedforward(self, inputs, sortida):
+        for i in range (0,900):         #posem menys iteracions perque el resultat surti més exacte
+            #np.dot --> per multiplicar dos matrius
+            hidden_input = np.dot(inputs, self.weights_inputs) + self.bias_hidden # multipliquem les dos matrius i sumem la matriu bias
+            hidden_output = self.sigmoid (hidden_input) # fa la funció sigmoid amb el càlcul de matrius
+            output_input = np.dot(hidden_output, self.weights_outputs)+self.bias_outputs # mateixa operació amb l'altra layer (operació encadenada amb l'altra)
+            output = self.sigmoid(output_input) # aplica la fòrmula amb l'última matriu calculada
+            # retorna la sortida de la xarxa
+
+            error = output - sortida   #calcula l'error (dz)
+
+            hidden_error = np.dot(hidden_output.T, error)     #fem la transposada de la matriu de pesos per l'error
+            #la multiplicació de les matrius està bé l'ordre (sino petaria)
+            #la a es output
+
+            self.weights_outputs = self.weights_outputs - 0.25 * hidden_error #actualització del pes (w)
+
+            self.bias_outputs = self.bias_outputs - 0.25 * error
+
+            g_deriv = hidden_output*(1 - hidden_output)
+            delta = np.dot(error, self.weights_outputs.T)* g_deriv
+
+            dw1 = np.dot(inputs.T, delta)
+
+            self.weights_inputs = self.weights_inputs - 0.25 * dw1  #actualització del pes (w)
+
+            self.bias_hidden = self.bias_hidden - 0.25 * delta
+
+        return output
+
+inputs = np.array([[0, 1], [0, 1], [1, 0], [1, 1]]) #assignem valors als inputs per cada combinació
+sortida = np.array([[0, 0], [1, 0], [1, 0], [0, 1]])    #assignem valors a les sortides per cada combinació
+xarxa = XarxaNeuronal(inputs) #creem la instància de la classe amb els valor dels inputs
+
+resultat = xarxa.feedforward(inputs, sortida)     #calculem el resultat
+print(resultat)         #mostrem el resultat de la sortida
